@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(val dispatchProvider: CoroutineDispatchProvider, val repo:HomeRepo) : BaseViewModel() {
+class HomeViewModel (val dispatchProvider: CoroutineDispatchProvider, val repo:HomeRepo) : BaseViewModel() {
 
     private val moviesMutableLiveData = MutableLiveData<List<Movie>>()
     val stockLiveData: LiveData<List<Movie>>
