@@ -1,147 +1,133 @@
-package com.backbase.mobileAssignment.utils.search;
+package com.backbase.mobileAssignment.utils.search
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*
 
-public class TrieSearch implements ISearch {
-    public static final int SEARCH_RATE_LIMITER = 5;
-    private static TrieSearch trieSearch;
-    private TrieNode root;
-
-    private TrieSearch() {
-        root = new TrieNode();
-    }
-
-    public static TrieSearch getInstance() {
-        if (trieSearch == null) {
-            trieSearch = new TrieSearch();
-        }
-        return trieSearch;
-    }
+class TrieSearch private constructor() : ISearch {
+    private val root: TrieNode
 
     /**
      * Inserts a word into the trie.
      */
-    @Override
-    public void insert(String word) {
-        TrieNode node = root;
-        for (int i = 0; i < word.length(); i++) {
-            char ch = word.charAt(i);
-            if (!node.containsKey(ch)) {
-                node.put(ch, new TrieNode(ch));
+    override fun insert(word: String?) {
+        if (word == null) return
+        var node: TrieNode? = root
+        for (ch in word) {
+            if (!node!!.containsKey(ch)) {
+                node.put(ch, TrieNode(ch))
             }
-            node = node.get(ch);
+            node = node[ch]
         }
-        node.setEnd();
+        node!!.setEnd()
     }
 
     /**
      * Returns if the word is in the trie.
      */
-    @Override
-    public boolean search(String word) {
-        TrieNode node = root;
-        for (int i = 0; i < word.length(); i++) {
-            char ch = word.charAt(i);
-            if (node.containsKey(ch)) {
-                node = node.get(ch);
+    override fun search(word: String?): Boolean {
+        if (word == null) return false
+        var node: TrieNode? = root
+        for (ch in word) {
+            node = if (node!!.containsKey(ch)) {
+                node[ch]
             } else {
-                return false;
+                return false
             }
         }
-        return node.isWord();
+        return node!!.isWord
     }
 
     /**
      * Get suggestions based on prefix entered.
-     * */
-    @Override
-    public List<String> getSuggestions(String prefix) {
-        List<String> list = new ArrayList<>();
-        TrieNode lastNode = root;
-        StringBuffer curr = new StringBuffer();
-        for (char c : prefix.toCharArray()) {
-            lastNode = lastNode.get(c);
-            if (lastNode == null)
-                return list;
-            curr.append(c);
+     */
+    override fun getSuggestions(prefix: String?): List<String?> {
+        val list: MutableList<String?> = ArrayList()
+        if (prefix == null) return list
+        var lastNode: TrieNode? = root
+        val curr = StringBuffer()
+        for (c in prefix.toCharArray()) {
+            lastNode = lastNode!![c]
+            if (lastNode == null) return list
+            curr.append(c)
         }
-        suggestRec(lastNode, list, curr);
-        return list;
+        suggestRec(lastNode, list, curr)
+        return list
     }
 
     /**
      * Returns if there is any word in the trie that starts with the given prefix.
      */
-    public boolean startsWith(String prefix) {
-        TrieNode node = root;
-        for (int i = 0; i < prefix.length(); i++) {
-            char ch = prefix.charAt(i);
-            if (node.containsKey(ch)) {
-                node = node.get(ch);
+    fun startsWith(prefix: String): Boolean {
+        var node: TrieNode? = root
+        for (ch in prefix) {
+            node = if (node!!.containsKey(ch)) {
+                node[ch]
             } else {
-                return false;
+                return false
             }
         }
-        return true;
+        return true
     }
 
-    private void suggestRec(TrieNode root, List<String> list, StringBuffer curr) {
-        if (list.size() >= SEARCH_RATE_LIMITER)
-            return;
-        if (root.isWord) {
-            list.add(curr.toString());
+    private fun suggestRec(root: TrieNode?, list: MutableList<String?>, curr: StringBuffer) {
+        if (list.size >= SEARCH_RATE_LIMITER) return
+        if (root!!.isWord) {
+            list.add(curr.toString())
         }
-
-        if (root.links == null || root.links.length <= 0)
-            return;
-
-        for (TrieNode child : root.links) {
-            if (child == null)
-                continue;
-            suggestRec(child, list, curr.append(child.c));
-            curr.setLength(curr.length() - 1);
+        if (root.links == null || root.links!!.isEmpty()) return
+        for (child in root.links!!) {
+            if (child == null) continue
+            suggestRec(child, list, curr.append(child.c))
+            curr.setLength(curr.length - 1)
         }
     }
 
-    static class TrieNode {
+    internal class TrieNode {
         //        R links to node children
-        private TrieNode[] links;
+        var links: Array<TrieNode?>?
+        private val size = 26
+        var isWord = false
+            private set
+        var c = 0.toChar()
 
-        private final int size = 26;
-
-        private boolean isWord;
-
-        char c;
-
-        public TrieNode(char c) {
-            this.c = c;
-            links = new TrieNode[size];
+        constructor(c: Char) {
+            this.c = c
+            links = arrayOfNulls(size)
         }
 
-        public TrieNode() {
-            links = new TrieNode[size];
+        constructor() {
+            links = arrayOfNulls(size)
         }
 
-        public boolean containsKey(char ch) {
-            return links[ch - 'a'] != null;
+        fun containsKey(ch: Char): Boolean {
+            return links!![ch - 'a'] != null
         }
 
-        public TrieNode get(char ch) {
-            return links[ch - 'a'];
+        operator fun get(ch: Char): TrieNode? {
+            return links!![ch - 'a']
         }
 
-        public void put(char ch, TrieNode node) {
-            links[ch - 'a'] = node;
+        fun put(ch: Char, node: TrieNode?) {
+            links!![ch - 'a'] = node
         }
 
-        public void setEnd() {
-            isWord = true;
+        fun setEnd() {
+            isWord = true
         }
+    }
 
-        public boolean isWord() {
-            return isWord;
-        }
+    companion object {
+        const val SEARCH_RATE_LIMITER = 5
+        private var trieSearch: TrieSearch? = null
+        val instance: TrieSearch?
+            get() {
+                if (trieSearch == null) {
+                    trieSearch = TrieSearch()
+                }
+                return trieSearch
+            }
+    }
+
+    init {
+        root = TrieNode()
     }
 }
-

@@ -1,9 +1,10 @@
-package com.backbase.mobileAssignment.utils.search;
+package com.backbase.mobileAssignment.utils.search
 
-import java.util.List;
-
-public interface ISearch {
-    void insert(String word);
-    boolean search(String word);
-    List<String> getSuggestions(String prefix);
+/**
+ * Interface for Search using Strategy Pattern
+ */
+interface ISearch {
+    fun insert(word: String?)
+    fun search(word: String?): Boolean
+    fun getSuggestions(prefix: String?): List<String?>?
 }

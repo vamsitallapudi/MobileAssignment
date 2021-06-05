@@ -13,8 +13,8 @@ class SearchUtilsTest {
 
     @Before
     fun setUp() {
-//        Used strategy pattern to dynamically switching the search algo
-        searchUtils = SearchUtils.getInstance(TrieSearch.getInstance())
+//        Used strategy pattern to dynamically switch between the search algo
+        searchUtils = SearchUtils.getInstance(TrieSearch.instance)
     }
 
     @Test
