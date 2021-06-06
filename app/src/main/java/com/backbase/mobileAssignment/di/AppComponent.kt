@@ -4,6 +4,7 @@ import android.content.Context
 import com.backbase.mobileAssignment.di.modules.StorageModule
 import com.backbase.mobileAssignment.di.modules.home.HomeModule
 import com.backbase.mobileAssignment.ui.home.HomeActivity
+import com.backbase.mobileAssignment.ui.home.HomeFragment
 import dagger.BindsInstance
 import dagger.Component
 
@@ -14,4 +15,5 @@ interface AppComponent {
         fun create(@BindsInstance context: Context, @BindsInstance activity: HomeActivity) : AppComponent
     }
     fun inject(activity: HomeActivity)
+    fun inject(fragment: HomeFragment)
 }

@@ -30,6 +30,7 @@ class HomeViewModel (val dispatchProvider: CoroutineDispatchProvider, val repo:H
             result.collect {
                 when (it) {
                     is Result.Success<*> -> {
+                        hideLoading()
                         val movieList = it.data
                         moviesMutableLiveData.postValue(movieList as List<Movie>?)
                     }

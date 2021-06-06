@@ -8,14 +8,14 @@ import com.backbase.mobileAssignment.utils.event.Event
 abstract class BaseViewModel : ViewModel() {
 
     private val _uiState = MutableLiveData<ProgressUIModel>()
-    private val uiState: LiveData<ProgressUIModel>
+    val uiState: LiveData<ProgressUIModel>
         get() = _uiState
 
     protected fun showLoading() {
         emitUIState(showProgress = true)
     }
 
-    protected fun hideLoading() {
+    fun hideLoading() {
         emitUIState(showProgress = false)
     }
 
