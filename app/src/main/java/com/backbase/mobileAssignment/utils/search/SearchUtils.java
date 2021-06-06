@@ -4,15 +4,15 @@ import java.util.List;
 
 public class SearchUtils {
     private static SearchUtils searchUtils;
-    private final ISearch iSearch;
+    private final IDataStructure iDataStructure;
 
-    private SearchUtils(ISearch iSearch) {
-        this.iSearch = iSearch;
+    private SearchUtils(IDataStructure iDataStructure) {
+        this.iDataStructure = iDataStructure;
     }
 
-    public static SearchUtils getInstance(ISearch iSearch) {
+    public static SearchUtils getInstance(IDataStructure iDataStructure) {
         if (searchUtils == null) {
-            searchUtils = new SearchUtils(iSearch);
+            searchUtils = new SearchUtils(iDataStructure);
         }
         return searchUtils;
     }
@@ -21,15 +21,17 @@ public class SearchUtils {
     public void insert(String word) {
         if(word == null)
             return;
-        iSearch.insert(word.toLowerCase());
+        iDataStructure.insert(word.toLowerCase());
     }
 
     public boolean searchWord(String word) {
-        return iSearch.search(word);
+        if(word == null)
+            return false;
+        return iDataStructure.search(word.toLowerCase());
     }
 
     public List<String> getSuggestions(String prefix) {
-        return iSearch.getSuggestions(prefix);
+        return iDataStructure.getSuggestions(prefix);
     }
 
 }

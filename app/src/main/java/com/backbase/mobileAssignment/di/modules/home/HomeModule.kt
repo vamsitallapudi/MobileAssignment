@@ -7,6 +7,8 @@ import com.backbase.mobileAssignment.di.modules.StorageModule
 import com.backbase.mobileAssignment.ui.home.HomeActivity
 import com.backbase.mobileAssignment.ui.home.HomeViewModel
 import com.backbase.mobileAssignment.ui.home.HomeViewModelFactory
+import com.backbase.mobileAssignment.utils.search.IDataStructure
+import com.backbase.mobileAssignment.utils.search.TrieDS
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -19,6 +21,8 @@ abstract class HomeModule {
 
     @Binds
     abstract fun homeActivityAsActivity(activity: HomeActivity): Activity
+    @Binds
+    abstract fun provideTrieAsIDataStructure(trieDS: TrieDS): IDataStructure
 
     @Module
     companion object {
@@ -30,6 +34,12 @@ abstract class HomeModule {
         ): HomeViewModel {
             return ViewModelProvider(fragmentActivity, factory)
                 .get(HomeViewModel::class.java)
+        }
+
+        @JvmStatic
+        @Provides
+        fun provideTrie(): TrieDS {
+            return TrieDS.instance!!
         }
     }
 }
