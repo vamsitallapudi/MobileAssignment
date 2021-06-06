@@ -3,8 +3,7 @@ package com.backbase.mobileAssignment.utils.search
 import java.util.*
 
 class TrieSearch private constructor() : ISearch {
-    private val root: TrieNode
-
+    private val root: TrieNode = TrieNode()
     /**
      * Inserts a word into the trie.
      */
@@ -127,7 +126,4 @@ class TrieSearch private constructor() : ISearch {
             }
     }
 
-    init {
-        root = TrieNode()
-    }
 }
