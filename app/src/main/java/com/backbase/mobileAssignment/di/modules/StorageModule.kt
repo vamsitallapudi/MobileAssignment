@@ -19,8 +19,8 @@ class StorageModule{
     }
 
     @Provides
-    fun provideHomeRepo(localDataSource: HomeLocalDataSource, remoteDataSource: HomeRemoteDataSource) : HomeRepo {
-        return HomeRepo(localDataSource, remoteDataSource)
+    fun provideHomeRepo(localDataSource: HomeLocalDataSource) : HomeRepo {
+        return HomeRepo(localDataSource)
     }
 
     @Provides

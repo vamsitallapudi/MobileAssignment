@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.backbase.mobileAssignment.data.database.entity.City
 import com.backbase.mobileAssignment.databinding.FragmentHomeBinding
 import com.backbase.mobileAssignment.ui.base.BaseFragment
 
 class HomeFragment : BaseFragment() {
 
     private lateinit var mBinding: FragmentHomeBinding
+    private lateinit var citiesAdapter: CitiesRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,8 +24,40 @@ class HomeFragment : BaseFragment() {
         mBinding = FragmentHomeBinding.inflate(inflater, container, false).apply {
             viewModel = (activity as HomeActivity).obtainViewModel()
         }
-        (activity as HomeActivity).obtainViewModel().hideLoading()
-        (activity as HomeActivity).obtainViewModel().hideLoading()
+        initViews()
         return mBinding.root
     }
+
+    private fun initViews() {
+        citiesAdapter = initRecyclerAdapter()
+        getCities() // to fetch cities from n/w
+    }
+
+    private fun getCities() {
+        mBinding.viewModel?.fetchCities()
+        mBinding.viewModel?.citiesLiveData?.observe(viewLifecycleOwner, {
+            citiesAdapter.submitList(it)
+        })
+    }
+
+    private fun initRecyclerAdapter(): CitiesRecyclerAdapter {
+        val itemClickListener = object : RecyclerItemClickListener {
+            override fun onItemClicked(position: Int) {
+
+//                val action = HomeFragmentDirections.actionHomeFragmentToChartFragment(stockResultsList[position].symbol)
+//                findNavController().navigate(action)
+            }
+        }
+        val adapter = CitiesRecyclerAdapter(itemClickListener)
+        mBinding.recyclerview.apply {
+            this.adapter = adapter
+            this.layoutManager = LinearLayoutManager(activity)
+        }
+        return adapter
+    }
+
+    interface RecyclerItemClickListener {
+        fun onItemClicked(position:Int)
+    }
+
 }

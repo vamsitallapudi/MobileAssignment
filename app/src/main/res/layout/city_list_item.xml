@@ -9,7 +9,7 @@
         android:background="@color/colorPrimaryDark">
 
         <TextView
-            android:id="@+id/tv_stock_symbol"
+            android:id="@+id/tv_city_title"
             style="@style/stock_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintBottom_toTopOf="@+id/view"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_stock_symbol"
+            app:layout_constraintTop_toBottomOf="@+id/tv_city_title"
             tools:text="Djia" />
 
         <TextView

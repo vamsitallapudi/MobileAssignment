@@ -1,7 +1,6 @@
 package com.backbase.mobileAssignment.ui.home
 
 import android.os.Bundle
-import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
@@ -24,12 +23,6 @@ class HomeActivity : BaseActivity() {
         inject(this)
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-        viewModel.fetchMovies()
-        viewModel.stockLiveData.observe(this, {
-            for (i in it) {
-                Toast.makeText(this, i.title, LENGTH_LONG).show()
-            }
-        })
     }
 
     fun obtainViewModel(): HomeViewModel {

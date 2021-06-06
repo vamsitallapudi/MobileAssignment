@@ -11,7 +11,7 @@ import javax.inject.Inject
 class HomeRemoteDataSource @Inject constructor(val service: BaseService) : HomeDataSource {
 
 
-    suspend fun fetchMovies(): Flow<Result<List<Movie>>> {
+    suspend fun fetchCities(): Flow<Result<List<Movie>>> {
         return safeApiCall(call = {fetchMovies}, NETWORK_ERROR_MSG)
     }
 

@@ -5,11 +5,9 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class HomeRepo @Inject
-constructor(homeLocalDataSource: HomeLocalDataSource,
-            val homeRemoteDataSource: HomeRemoteDataSource) {
-
-    suspend fun fetchMovies(): Flow<Result<*>> {
-        return homeRemoteDataSource.fetchMovies()
+constructor(private val homeLocalDataSource: HomeLocalDataSource) {
+    suspend fun fetchCities(): Flow<Result<*>> {
+        return homeLocalDataSource.fetchCities()
     }
 
 }
