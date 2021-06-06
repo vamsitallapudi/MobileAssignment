@@ -8,6 +8,7 @@ import com.backbase.mobileAssignment.data.repos.home.HomeRemoteDataSource
 import com.backbase.mobileAssignment.data.repos.home.HomeRepo
 import com.backbase.mobileAssignment.utils.CoroutineDispatchProvider
 import com.backbase.mobileAssignment.utils.search.IDataStructure
+import com.backbase.mobileAssignment.utils.search.SearchUtils
 import dagger.Module
 import dagger.Provides
 
@@ -25,8 +26,12 @@ class StorageModule{
     }
 
     @Provides
-    fun provideHomeLocalDataSource(iDataStructure: IDataStructure) : HomeLocalDataSource {
-        return HomeLocalDataSource(iDataStructure)
+    fun provideSearchUtils(iDataStructure: IDataStructure) : SearchUtils {
+        return SearchUtils.getInstance(iDataStructure)
+    }
+    @Provides
+    fun provideHomeLocalDataSource(searchUtils: SearchUtils) : HomeLocalDataSource {
+        return HomeLocalDataSource(searchUtils)
     }
     @Provides
     fun provideHomeRemoteDataSource(service : BaseService) : HomeRemoteDataSource {
