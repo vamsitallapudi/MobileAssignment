@@ -1,13 +1,12 @@
 package com.backbase.mobileAssignment.di.modules.home
-import android.content.Context
 import com.backbase.mobileAssignment.di.DaggerAppComponent
 import com.backbase.mobileAssignment.ui.home.HomeActivity
 
 /**
  * Injector for HomeActivity.
  */
-fun inject(activity: HomeActivity, applicationContext: Context) {
+fun inject(activity: HomeActivity) {
     DaggerAppComponent.factory()
-        .create(applicationContext, activity)
+        .create(activity.applicationContext, activity)
         .inject(activity)
 }
