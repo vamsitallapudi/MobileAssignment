@@ -15,7 +15,6 @@ class HomeLocalDataSource @Inject constructor(database: BaseAndroidSkeletonDatab
     }
 
     private val fetchCities: Flow<Result<List<City>>> = flow {
-
         val cities = listOf(
             City("Hyderabad"),
             City("Delhi"),
@@ -23,6 +22,13 @@ class HomeLocalDataSource @Inject constructor(database: BaseAndroidSkeletonDatab
             City("Chennai"),
             City("Kolkata"),
             City("Bangalore"),
+            City("Ahmedabad"),
+            City("China"),
+            City("Bangkok"),
+            City("Jaisalmer"),
+            City("Udupi"),
+            City("Tirupathi"),
+            City("Shirdi"),
         )
         emit(Result.Success(cities))
     }
