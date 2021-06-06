@@ -2,8 +2,6 @@ package com.backbase.mobileAssignment.ui.home
 
 import android.os.Bundle
 import android.widget.ProgressBar
-import android.widget.Toast
-import android.widget.Toast.LENGTH_LONG
 import androidx.databinding.DataBindingUtil
 import com.backbase.mobileAssignment.R
 import com.backbase.mobileAssignment.databinding.ActivityHomeBinding

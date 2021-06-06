@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.backbase.mobileAssignment.data.database.entity.City
 import com.backbase.mobileAssignment.databinding.FragmentHomeBinding
+import com.backbase.mobileAssignment.ui.base.BaseActivity
 import com.backbase.mobileAssignment.ui.base.BaseFragment
 
 class HomeFragment : BaseFragment() {
@@ -30,14 +30,28 @@ class HomeFragment : BaseFragment() {
 
     private fun initViews() {
         citiesAdapter = initRecyclerAdapter()
-        getCities() // to fetch cities from n/w
+        insertCities()
     }
 
-    private fun getCities() {
-        mBinding.viewModel?.fetchCities()
-        mBinding.viewModel?.citiesLiveData?.observe(viewLifecycleOwner, {
-            citiesAdapter.submitList(it)
-        })
+    private fun insertCities() {
+        mBinding.viewModel?.apply {
+            insertCities()
+            insertCitiesLiveData.observe(viewLifecycleOwner, {
+                if(it)
+                    loadCities() // to fetch cities from DS
+                else
+                    (activity as? BaseActivity)?.displaySnackBar("Error Fetching cities")
+            })
+        }
+    }
+
+    private fun loadCities() {
+        mBinding.viewModel?.apply {
+            searchCities()
+            fetchCitiesLiveData.observe(viewLifecycleOwner, {
+                citiesAdapter.submitList(it)
+            })
+        }
     }
 
     private fun initRecyclerAdapter(): CitiesRecyclerAdapter {

@@ -19,10 +19,14 @@ abstract class BaseViewModel : ViewModel() {
         emitUIState(showProgress = false)
     }
 
+    fun displayError(message:String) {
+        emitUIState(showError = Event(message))
+    }
+
 
     private fun emitUIState(
         showProgress: Boolean = false,
-        showError: Event<Int>? = null,
+        showError: Event<String>? = null,
         showSuccess: Event<ProgressUIModel>? = null
     ) {
         val uiModel = ProgressUIModel(showProgress, showError, showSuccess)
@@ -34,7 +38,7 @@ abstract class BaseViewModel : ViewModel() {
      */
     data class ProgressUIModel(
         val showProgress: Boolean,
-        val showError: Event<Int>?,
+        val showError: Event<String>?,
         val showSuccess: Event<ProgressUIModel>?
     )
 }

@@ -9,5 +9,8 @@ constructor(private val homeLocalDataSource: HomeLocalDataSource) {
     suspend fun fetchCities(): Flow<Result<*>> {
         return homeLocalDataSource.fetchCities()
     }
+    suspend fun insertCities(): Flow<Result<*>> {
+        return homeLocalDataSource.insertCities()
+    }
 
 }

@@ -1,10 +1,13 @@
 package com.backbase.mobileAssignment.utils.search
 
+import com.backbase.mobileAssignment.data.database.entity.City
+
 /**
  * Interface for Data Structure using Strategy Pattern.
  */
 interface IDataStructure {
-    fun insert(word: String?)
-    fun search(word: String?): Boolean
-    fun getSuggestions(prefix: String?): List<String?>?
+    fun insert(city: City?)
+    fun search(city: City?): Boolean
+    fun getSuggestions(prefix: String?): List<City?>
+    fun fetchAll(): List<City?>
 }

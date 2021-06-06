@@ -13,14 +13,21 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeViewModel (private val dispatchProvider: CoroutineDispatchProvider, private val repo:HomeRepo) : BaseViewModel() {
+class HomeViewModel(
+    private val dispatchProvider: CoroutineDispatchProvider,
+    private val repo: HomeRepo
+) : BaseViewModel() {
 
-    private val citiesMutableLiveData = MutableLiveData<List<City>>()
-    val citiesLiveData: LiveData<List<City>>
-        get() = citiesMutableLiveData
+    private val fetchCitiesMutableLiveData = MutableLiveData<List<City>>()
+    private val insertCitiesMutableLiveData = MutableLiveData<Boolean>()
+
+    val fetchCitiesLiveData: LiveData<List<City>>
+        get() = fetchCitiesMutableLiveData
+    val insertCitiesLiveData: LiveData<Boolean>
+        get() = insertCitiesMutableLiveData
 
 
-    fun fetchCities() : Job {
+    fun searchCities(): Job {
         return viewModelScope.launch(dispatchProvider.io) {
             withContext(dispatchProvider.main) {
                 showLoading()
@@ -29,11 +36,42 @@ class HomeViewModel (private val dispatchProvider: CoroutineDispatchProvider, pr
             result.collect {
                 when (it) {
                     is Result.Success<*> -> {
-                        hideLoading()
-                        citiesMutableLiveData.postValue(it.data as List<City>?)
+                        withContext(dispatchProvider.main) {
+                            hideLoading()
+                        }
+                        fetchCitiesMutableLiveData.postValue(it.data as List<City>?)
                     }
                     is Result.Error -> {
+                        withContext(dispatchProvider.main) {
+                            hideLoading()
+                        }
+                    }
+                    is Result.Loading -> {
 
+                    }
+                }
+            }
+        }
+    }
+
+    fun insertCities(): Job {
+        return viewModelScope.launch(dispatchProvider.io) {
+            withContext(dispatchProvider.main) {
+                showLoading()
+            }
+            val result = repo.insertCities()
+            result.collect {
+                when (it) {
+                    is Result.Success<*> -> {
+                        withContext(dispatchProvider.main) {
+                            hideLoading()
+                        }
+                        insertCitiesMutableLiveData.postValue(it.data as Boolean)
+                    }
+                    is Result.Error -> {
+                        withContext(dispatchProvider.main) {
+                            hideLoading()
+                        }
                     }
                     is Result.Loading -> {
 
