@@ -52,21 +52,6 @@ class TrieSearch private constructor() : ISearch {
         return list
     }
 
-    /**
-     * Returns if there is any word in the trie that starts with the given prefix.
-     */
-    fun startsWith(prefix: String): Boolean {
-        var node: TrieNode? = root
-        for (ch in prefix) {
-            node = if (node!!.containsKey(ch)) {
-                node[ch]
-            } else {
-                return false
-            }
-        }
-        return true
-    }
-
     private fun suggestRec(root: TrieNode?, list: MutableList<String?>, curr: StringBuffer) {
         if (list.size >= SEARCH_RATE_LIMITER) return
         if (root!!.isWord) {

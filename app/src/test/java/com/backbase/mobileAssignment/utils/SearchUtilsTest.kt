@@ -20,8 +20,20 @@ class SearchUtilsTest {
     @Test
     fun `test if word is properly inserted`() {
         val word = "hello"
-        searchUtils!!.insert(word.toLowerCase())
+        searchUtils!!.insert(word)
         assertTrue(searchUtils!!.searchWord(word))
+    }
+    @Test
+    fun `test inserting null`() {
+        val word = null
+        searchUtils!!.insert(word)
+        assertFalse(searchUtils!!.searchWord(word))
+    }
+
+    @Test
+    fun `test search implementation for wrong word`() {
+        val word = "hey"
+        assertFalse(searchUtils!!.searchWord(word))
     }
 
     @Test
