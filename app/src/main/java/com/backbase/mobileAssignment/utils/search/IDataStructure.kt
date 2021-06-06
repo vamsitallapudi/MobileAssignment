@@ -1,9 +1,9 @@
 package com.backbase.mobileAssignment.utils.search
 
 /**
- * Interface for Search using Strategy Pattern
+ * Interface for Data Structure using Strategy Pattern.
  */
-interface ISearch {
+interface IDataStructure {
     fun insert(word: String?)
     fun search(word: String?): Boolean
     fun getSuggestions(prefix: String?): List<String?>?

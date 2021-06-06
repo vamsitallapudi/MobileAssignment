@@ -2,7 +2,7 @@ package com.backbase.mobileAssignment.utils.search
 
 import java.util.*
 
-class TrieSearch private constructor() : ISearch {
+class TrieDS private constructor() : IDataStructure {
     private val root: TrieNode = TrieNode()
     /**
      * Inserts a word into the trie.
@@ -101,11 +101,11 @@ class TrieSearch private constructor() : ISearch {
 
     companion object {
         const val SEARCH_RATE_LIMITER = 5
-        private var trieSearch: TrieSearch? = null
-        val instance: TrieSearch?
+        private var trieSearch: TrieDS? = null
+        val instance: TrieDS?
             get() {
                 if (trieSearch == null) {
-                    trieSearch = TrieSearch()
+                    trieSearch = TrieDS()
                 }
                 return trieSearch
             }
