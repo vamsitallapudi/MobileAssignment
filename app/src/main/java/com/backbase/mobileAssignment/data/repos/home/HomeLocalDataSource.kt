@@ -10,12 +10,17 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class HomeLocalDataSource @Inject constructor(searchUtils: SearchUtils) {
+    private lateinit var prefix: String
     suspend fun fetchCities(): Flow<Result<List<City?>>> {
         return safeApiCall(call = { fetchCities }, NETWORK_ERROR_MSG)
     }
 
     suspend fun insertCities(): Flow<Result<Boolean>> {
         return safeApiCall(call = { insertCities }, NETWORK_ERROR_MSG)
+    }
+    suspend fun getSuggestions(prefix:String): Flow<Result<List<City?>>> {
+        this.prefix = prefix
+        return safeApiCall(call = { getSuggestions }, NETWORK_ERROR_MSG)
     }
 
     private val fetchCities: Flow<Result<List<City?>>> = flow {
@@ -41,6 +46,14 @@ class HomeLocalDataSource @Inject constructor(searchUtils: SearchUtils) {
             for (city in cities)
                 searchUtils.insert(city)
             emit(Result.Success(true))
+        } catch (e: Exception) {
+            emit(Result.Error(e))
+        }
+    }
+    private val getSuggestions: Flow<Result<List<City?>>> = flow {
+        try {
+            val list = searchUtils.getSuggestions(prefix)
+            emit(Result.Success(list))
         } catch (e: Exception) {
             emit(Result.Error(e))
         }

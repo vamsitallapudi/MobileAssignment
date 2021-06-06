@@ -27,7 +27,7 @@ class HomeViewModel(
         get() = insertCitiesMutableLiveData
 
 
-    fun searchCities(): Job {
+    fun fetchCities(): Job {
         return viewModelScope.launch(dispatchProvider.io) {
             withContext(dispatchProvider.main) {
                 showLoading()
@@ -46,9 +46,31 @@ class HomeViewModel(
                             hideLoading()
                         }
                     }
-                    is Result.Loading -> {
-
+                    else -> {}
+                }
+            }
+        }
+    }
+    fun getSuggestions(prefix: String): Job {
+        return viewModelScope.launch(dispatchProvider.io) {
+            withContext(dispatchProvider.main) {
+                showLoading()
+            }
+            val result = repo.getSuggestions(prefix)
+            result.collect {
+                when (it) {
+                    is Result.Success<*> -> {
+                        withContext(dispatchProvider.main) {
+                            hideLoading()
+                        }
+                        fetchCitiesMutableLiveData.postValue(it.data as List<City>?)
                     }
+                    is Result.Error -> {
+                        withContext(dispatchProvider.main) {
+                            hideLoading()
+                        }
+                    }
+                    else -> {}
                 }
             }
         }

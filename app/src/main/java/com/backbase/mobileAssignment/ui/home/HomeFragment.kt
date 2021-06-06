@@ -1,6 +1,8 @@
 package com.backbase.mobileAssignment.ui.home
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.backbase.mobileAssignment.databinding.FragmentHomeBinding
 import com.backbase.mobileAssignment.ui.base.BaseActivity
 import com.backbase.mobileAssignment.ui.base.BaseFragment
+import com.backbase.mobileAssignment.utils.SEARCH_DELAY_TIMER
+import java.util.*
 
 class HomeFragment : BaseFragment() {
 
@@ -25,32 +29,77 @@ class HomeFragment : BaseFragment() {
             viewModel = (activity as HomeActivity).obtainViewModel()
         }
         initViews()
+        implementSearch()
         return mBinding.root
     }
 
     private fun initViews() {
         citiesAdapter = initRecyclerAdapter()
         insertCities()
+        observeCitiesLiveData()
     }
 
-    private fun insertCities() {
+    private fun observeCitiesLiveData() {
+
         mBinding.viewModel?.apply {
-            insertCities()
+
+            fetchCitiesLiveData.observe(viewLifecycleOwner, {
+                citiesAdapter.submitList(it)
+            })
+
             insertCitiesLiveData.observe(viewLifecycleOwner, {
-                if(it)
-                    loadCities() // to fetch cities from DS
+                if (it)
+                    fetchCities() // to fetch cities from DS
                 else
                     (activity as? BaseActivity)?.displaySnackBar("Error Fetching cities")
             })
         }
     }
 
-    private fun loadCities() {
+    private fun insertCities() {
         mBinding.viewModel?.apply {
-            searchCities()
-            fetchCitiesLiveData.observe(viewLifecycleOwner, {
-                citiesAdapter.submitList(it)
-            })
+            insertCities()
+        }
+    }
+
+
+    private fun implementSearch() {
+
+        mBinding.etSearch.addTextChangedListener(
+            object : TextWatcher {
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+                override fun beforeTextChanged(
+                    s: CharSequence,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                private var timer: Timer = Timer()
+                private val DELAY: Long = SEARCH_DELAY_TIMER // milliseconds
+                override fun afterTextChanged(s: Editable) {
+                    timer.cancel()
+                    timer = Timer()
+                    timer.schedule(
+                        object : TimerTask() {
+                            override fun run() {
+                                if (s.toString().isNotEmpty())
+                                    mBinding.viewModel?.getSuggestions(s.toString())
+                                else
+                                    fetchCities()
+                            }
+                        },
+                        DELAY
+                    )
+                }
+            }
+        )
+    }
+
+    private fun fetchCities() {
+        mBinding.viewModel?.apply {
+            fetchCities()
         }
     }
 
@@ -71,7 +120,7 @@ class HomeFragment : BaseFragment() {
     }
 
     interface RecyclerItemClickListener {
-        fun onItemClicked(position:Int)
+        fun onItemClicked(position: Int)
     }
 
 }
