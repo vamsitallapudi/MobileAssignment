@@ -1,10 +1,11 @@
 package com.backbase.mobileAssignment.utils
 
+import com.backbase.mobileAssignment.data.database.entity.City
+import com.backbase.mobileAssignment.data.database.entity.Movie
 import com.backbase.mobileAssignment.utils.search.SearchUtils
 import com.backbase.mobileAssignment.utils.search.TrieDS
-import org.junit.Assert.assertTrue
 import org.junit.After
-import org.junit.Assert.assertFalse
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
@@ -15,13 +16,26 @@ class SearchUtilsTest {
     fun setUp() {
 //        Used strategy pattern to dynamically switch between the search algo
         searchUtils = SearchUtils.getInstance(TrieDS.instance)
+        insertData()
+    }
+
+    @Test
+    fun `test size of all the fetched cities`() {
+        val citiesList = searchUtils!!.fetchAll()
+        assertEquals(citiesList.size, 2)
+    }
+
+    @Test
+    fun `test if the city is contained in fetched list`() {
+        val citiesList = searchUtils!!.fetchAll()
+        assertTrue(citiesList.contains(City("Helrrières -l(Kreis 3) \\/ e- Buisson Shāhrūd")))
     }
 
     @Test
     fun `test if word is properly inserted`() {
-        val word = "Hello"
-        searchUtils!!.insert(word)
-        assertTrue(searchUtils!!.searchWord(word))
+        val city = City("Hello")
+        searchUtils!!.insert(city)
+        assertTrue(searchUtils!!.searchWord(city))
     }
 
     @Test
@@ -33,7 +47,7 @@ class SearchUtilsTest {
 
     @Test
     fun `test search implementation for wrong word`() {
-        assertFalse(searchUtils!!.searchWord("Hey"))
+        assertFalse(searchUtils!!.searchWord(City("Hey")))
     }
 
     @Test
@@ -42,17 +56,16 @@ class SearchUtilsTest {
     }
 
     @Test
-    fun `test if suggestions doesn't contain wrong data`() {
-        initDataForSuggestions()
+    fun `test if suggestions are working properly`() {
         val suggestionList = searchUtils!!.getSuggestions("hel")
-        assertFalse(suggestionList.contains("hellboy"))
+        assertTrue(suggestionList.contains(City("hella")))
     }
 
     @Test
-    fun `test if suggestions are working properly`() {
-        initDataForSuggestions()
+    fun `test if suggestions doesn't contain wrong data`() {
+        insertData()
         val suggestionList = searchUtils!!.getSuggestions("hel")
-        assertTrue(suggestionList.contains("hella"))
+        assertFalse(suggestionList.contains(City("hellboy")))
     }
 
     @After
@@ -62,8 +75,8 @@ class SearchUtilsTest {
         System.gc()
     }
 
-    private fun initDataForSuggestions() {
-        searchUtils!!.insert("hell")
-        searchUtils!!.insert("hella")
+    private fun insertData() {
+        searchUtils!!.insert(City("Helrrières -l(Kreis 3) \\/ e- Buisson Shāhrūd"))
+        searchUtils!!.insert(City("hella"))
     }
 }
