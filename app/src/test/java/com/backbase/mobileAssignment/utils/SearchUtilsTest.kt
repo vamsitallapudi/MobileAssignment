@@ -1,7 +1,7 @@
 package com.backbase.mobileAssignment.utils
 
 import com.backbase.mobileAssignment.utils.search.SearchUtils
-import com.backbase.mobileAssignment.utils.search.TrieSearch
+import com.backbase.mobileAssignment.utils.search.TrieDS
 import org.junit.Assert.assertTrue
 import org.junit.After
 import org.junit.Assert.assertFalse
@@ -14,15 +14,16 @@ class SearchUtilsTest {
     @Before
     fun setUp() {
 //        Used strategy pattern to dynamically switch between the search algo
-        searchUtils = SearchUtils.getInstance(TrieSearch.instance)
+        searchUtils = SearchUtils.getInstance(TrieDS.instance)
     }
 
     @Test
     fun `test if word is properly inserted`() {
-        val word = "hello"
+        val word = "Hello"
         searchUtils!!.insert(word)
         assertTrue(searchUtils!!.searchWord(word))
     }
+
     @Test
     fun `test inserting null`() {
         val word = null
@@ -32,8 +33,12 @@ class SearchUtilsTest {
 
     @Test
     fun `test search implementation for wrong word`() {
-        val word = "hey"
-        assertFalse(searchUtils!!.searchWord(word))
+        assertFalse(searchUtils!!.searchWord("Hey"))
+    }
+
+    @Test
+    fun `test search implementation for null`() {
+        assertFalse(searchUtils!!.searchWord(null))
     }
 
     @Test
