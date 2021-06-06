@@ -1,30 +1,37 @@
 package com.backbase.mobileAssignment.utils.search
 
+import com.backbase.mobileAssignment.data.database.entity.City
 import java.util.*
 
 class TrieDS private constructor() : IDataStructure {
     private val root: TrieNode = TrieNode()
+
     /**
      * Inserts a word into the trie.
      */
-    override fun insert(word: String?) {
-        if (word == null) return
+    override fun insert(city: City?) {
+        if (city?.name == null) return
         var node: TrieNode? = root
+        val word = city.normalizedStr
         for (ch in word) {
             if (!node!!.containsKey(ch)) {
                 node.put(ch, TrieNode(ch))
             }
             node = node[ch]
         }
-        node!!.setEnd()
+        node?.apply {
+            originalStr = city.name
+            setEnd()
+        }
     }
 
     /**
      * Returns if the word is in the trie.
      */
-    override fun search(word: String?): Boolean {
-        if (word == null) return false
+    override fun search(city: City?): Boolean {
+        if (city?.name == null) return false
         var node: TrieNode? = root
+        val word = city.normalizedStr
         for (ch in word) {
             node = if (node!!.containsKey(ch)) {
                 node[ch]
@@ -38,8 +45,8 @@ class TrieDS private constructor() : IDataStructure {
     /**
      * Get suggestions based on prefix entered.
      */
-    override fun getSuggestions(prefix: String?): List<String?> {
-        val list: MutableList<String?> = ArrayList()
+    override fun getSuggestions(prefix: String?): List<City?> {
+        val list = ArrayList<City?>()
         if (prefix == null) return list
         var lastNode: TrieNode? = root
         val curr = StringBuffer()
@@ -48,19 +55,26 @@ class TrieDS private constructor() : IDataStructure {
             if (lastNode == null) return list
             curr.append(c)
         }
-        suggestRec(lastNode, list, curr)
+        fetchRecursively(lastNode, list, curr)
         return list
     }
 
-    private fun suggestRec(root: TrieNode?, list: MutableList<String?>, curr: StringBuffer) {
-        if (list.size >= SEARCH_RATE_LIMITER) return
-        if (root!!.isWord) {
-            list.add(curr.toString())
+    override fun fetchAll(): List<City?> {
+        val list = ArrayList<City?>()
+        val node = root
+        fetchRecursively(node, list, StringBuffer())
+        return list
+    }
+
+    private fun fetchRecursively(node: TrieNode?, list: MutableList<City?>, curr: StringBuffer) {
+        if (node!!.isWord) {
+//            retrieving the original data from the trie node
+            list.add(City(name= node.originalStr, normalizedStr = curr.toString()))
         }
-        if (root.links == null || root.links!!.isEmpty()) return
-        for (child in root.links!!) {
+        if (node.links == null || node.links!!.isEmpty()) return
+        for (child in node.links!!) {
             if (child == null) continue
-            suggestRec(child, list, curr.append(child.c))
+            fetchRecursively(child, list, curr.append(child.c))
             curr.setLength(curr.length - 1)
         }
     }
@@ -71,6 +85,7 @@ class TrieDS private constructor() : IDataStructure {
         private val size = 26
         var isWord = false
             private set
+        var originalStr = ""
         var c = 0.toChar()
 
         constructor(c: Char) {
@@ -102,12 +117,12 @@ class TrieDS private constructor() : IDataStructure {
     companion object {
         const val SEARCH_RATE_LIMITER = 5
         private var trieSearch: TrieDS? = null
-        val instance: TrieDS?
+        val instance: TrieDS
             get() {
                 if (trieSearch == null) {
                     trieSearch = TrieDS()
                 }
-                return trieSearch
+                return trieSearch!!
             }
     }
 
