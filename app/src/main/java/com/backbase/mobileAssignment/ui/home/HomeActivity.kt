@@ -25,8 +25,4 @@ class HomeActivity : BaseActivity() {
             }
         })
     }
-
-    fun obtainViewModel(): HomeViewModel {
-        return viewModel
-    }
 }
