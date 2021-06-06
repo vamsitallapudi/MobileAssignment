@@ -8,7 +8,7 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewmodel"
+            name="viewModel"
             type="com.backbase.mobileAssignment.ui.home.HomeViewModel" />
     </data>
 
