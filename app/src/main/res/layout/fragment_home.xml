@@ -28,16 +28,13 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:textColor="@color/white"
-            android:layout_marginStart="@dimen/default_padding"
-            android:layout_marginEnd="@dimen/default_padding"
             android:drawableStart="@drawable/ic_baseline_search_24"
-            android:drawableEnd="@drawable/ic_baseline_filter_alt_24"
             app:layout_constraintTop_toTopOf="parent"
             android:textColorHint="@android:color/darker_gray"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:inputType="textPersonName"
-            android:hint="Search and add"
+            android:hint="Search Cities"
             tools:layout_editor_absoluteX="98dp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -49,7 +46,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etSearch"
-            tools:listitem="@layout/stock_list_item" />
+            tools:listitem="@layout/city_list_item" />
 
         <ProgressBar
             android:id="@+id/progressBar"

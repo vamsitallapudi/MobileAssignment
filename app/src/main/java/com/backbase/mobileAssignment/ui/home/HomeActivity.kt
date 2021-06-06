@@ -19,7 +19,7 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel.fetchMovies()
-        viewModel.stockLiveData.observe(this, Observer {
+        viewModel.stockLiveData.observe(this, {
             for(i in it) {
                 Toast.makeText(this, i.title, LENGTH_LONG).show()
             }

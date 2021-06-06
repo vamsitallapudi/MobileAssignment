@@ -6,8 +6,8 @@
 
     <solid android:color="@color/editTextColor" />
     <corners
-        android:bottomRightRadius="@dimen/dimen_4dp"
-        android:bottomLeftRadius="@dimen/dimen_4dp"
-        android:topLeftRadius="@dimen/dimen_4dp"
-        android:topRightRadius="@dimen/dimen_4dp" />
+        android:bottomRightRadius="@dimen/dimen_8dp"
+        android:bottomLeftRadius="@dimen/dimen_8dp"
+        android:topLeftRadius="@dimen/dimen_8dp"
+        android:topRightRadius="@dimen/dimen_8dp" />
 </shape>
