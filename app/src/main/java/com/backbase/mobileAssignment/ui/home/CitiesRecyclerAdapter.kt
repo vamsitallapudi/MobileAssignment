@@ -34,7 +34,7 @@ class CitiesRecyclerAdapter(
         ) {
             mBinding.tvCityTitle.text = getDisplayName(city)
             mBinding.root.setOnClickListener {
-                itemClickListener.onItemClicked(position)
+                itemClickListener.onItemClicked(city)
             }
         }
 

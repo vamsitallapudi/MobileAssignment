@@ -6,7 +6,10 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.backbase.mobileAssignment.R
+import com.backbase.mobileAssignment.data.models.City
 import com.backbase.mobileAssignment.databinding.FragmentHomeBinding
 import com.backbase.mobileAssignment.ui.base.BaseActivity
 import com.backbase.mobileAssignment.ui.base.BaseFragment
@@ -111,9 +114,9 @@ class HomeFragment : BaseFragment() {
 
     private fun initRecyclerAdapter(): CitiesRecyclerAdapter {
         val itemClickListener = object : RecyclerItemClickListener {
-            override fun onItemClicked(position: Int) {
-
-//                val action = HomeFragmentDirections.actionHomeFragmentToChartFragment(stockResultsList[position].symbol)
+            override fun onItemClicked(city: City) {
+                (activity as? BaseActivity)?.displaySnackBar("${city.name} clicked")
+//                val action = HomeFragmentDirections.actionHomeFragmentToMapsFragment(city)
 //                findNavController().navigate(action)
             }
         }
@@ -127,7 +130,7 @@ class HomeFragment : BaseFragment() {
     }
 
     interface RecyclerItemClickListener {
-        fun onItemClicked(position: Int)
+        fun onItemClicked(city: City)
     }
 
 }
