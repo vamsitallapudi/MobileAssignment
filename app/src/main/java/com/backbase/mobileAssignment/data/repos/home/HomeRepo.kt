@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class HomeRepo @Inject
 constructor(private val homeLocalDataSource: HomeLocalDataSource) {
-    suspend fun fetchCities(): Flow<Result<*>> {
-        return homeLocalDataSource.fetchCities()
+    suspend fun fetchAllCities(): Flow<Result<*>> {
+        return homeLocalDataSource.fetchAllCities()
     }
     suspend fun insertCities(): Flow<Result<*>> {
         return homeLocalDataSource.insertCities()

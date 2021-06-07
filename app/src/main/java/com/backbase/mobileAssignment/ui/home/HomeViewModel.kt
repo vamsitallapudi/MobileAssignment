@@ -27,12 +27,12 @@ class HomeViewModel(
         get() = insertCitiesMutableLiveData
 
 
-    fun fetchCities(): Job {
+    fun fetchAllCities(): Job {
         return viewModelScope.launch(dispatchProvider.io) {
             withContext(dispatchProvider.main) {
                 showLoading()
             }
-            val result = repo.fetchCities()
+            val result = repo.fetchAllCities()
             result.collect {
                 when (it) {
                     is Result.Success<*> -> {
@@ -77,7 +77,7 @@ class HomeViewModel(
     }
 
     fun insertCities(): Job {
-        return viewModelScope.launch(dispatchProvider.io) {
+        return viewModelScope.launch(dispatchProvider.computation) {
             withContext(dispatchProvider.main) {
                 showLoading()
             }

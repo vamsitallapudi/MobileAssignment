@@ -18,6 +18,8 @@ class HomeFragment : BaseFragment() {
     private lateinit var mBinding: FragmentHomeBinding
     private lateinit var citiesAdapter: CitiesRecyclerAdapter
 
+    private var citiesCount = -1
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,18 +46,22 @@ class HomeFragment : BaseFragment() {
         mBinding.viewModel?.apply {
 
             fetchCitiesLiveData.observe(viewLifecycleOwner, {
-                citiesAdapter.submitList(it)
+                citiesCount = it.size
+                citiesAdapter.updateList(it)
             })
 
             insertCitiesLiveData.observe(viewLifecycleOwner, {
                 if (it)
-                    fetchCities() // to fetch cities from DS
+                    fetchAllCities() // to fetch cities from DS
                 else
                     (activity as? BaseActivity)?.displaySnackBar("Error Fetching cities")
             })
         }
     }
 
+    /**
+     * To insert cities from json into our Data Structure
+     * */
     private fun insertCities() {
         mBinding.viewModel?.apply {
             insertCities()
@@ -84,10 +90,12 @@ class HomeFragment : BaseFragment() {
                     timer.schedule(
                         object : TimerTask() {
                             override fun run() {
-                                if (s.toString().isNotEmpty())
+                                if (s.toString().isNotEmpty() && citiesCount >= 0)
                                     mBinding.viewModel?.getSuggestions(s.toString())
-                                else
-                                    fetchCities()
+                                else if (citiesCount >= 0) {
+                                    fetchAllCities()
+                                } else
+                                    (activity as? BaseActivity)?.displaySnackBar("Please wait until we fetch the cities list")
                             }
                         },
                         DELAY
@@ -97,10 +105,8 @@ class HomeFragment : BaseFragment() {
         )
     }
 
-    private fun fetchCities() {
-        mBinding.viewModel?.apply {
-            fetchCities()
-        }
+    private fun fetchAllCities() {
+        mBinding.viewModel?.fetchAllCities()
     }
 
     private fun initRecyclerAdapter(): CitiesRecyclerAdapter {
@@ -113,6 +119,7 @@ class HomeFragment : BaseFragment() {
         }
         val adapter = CitiesRecyclerAdapter(itemClickListener)
         mBinding.recyclerview.apply {
+            itemAnimator = null
             this.adapter = adapter
             this.layoutManager = LinearLayoutManager(activity)
         }

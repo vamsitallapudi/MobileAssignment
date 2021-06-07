@@ -61,4 +61,7 @@ dependencies {
     }
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+
+//    json parsing
+    implementation("com.squareup.moshi:moshi-kotlin:1.12.0")
 }

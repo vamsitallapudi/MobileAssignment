@@ -3,8 +3,6 @@ package com.backbase.mobileAssignment.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.backbase.mobileAssignment.R
 import com.backbase.mobileAssignment.data.models.City
@@ -12,20 +10,21 @@ import com.backbase.mobileAssignment.databinding.CityListItemBinding
 
 class CitiesRecyclerAdapter(
     private val itemClickListener: HomeFragment.RecyclerItemClickListener
-) :
-    ListAdapter<City, CitiesRecyclerAdapter.StockViewHolder>(STOCKS_COMPARATOR) {
+) : RecyclerView.Adapter<CitiesRecyclerAdapter.CityViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockViewHolder {
-        return StockViewHolder.create(parent)
+    private var cities = mutableListOf<City>()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {
+        return CityViewHolder.create(parent)
     }
 
-    override fun onBindViewHolder(holder: StockViewHolder, position: Int) {
-        val city = getItem(position)
+    override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
+        val city = cities[position]
         holder.bind(city, itemClickListener, position)
     }
 
 
-    class StockViewHolder(binding: CityListItemBinding) :
+    class CityViewHolder(binding: CityListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private var mBinding: CityListItemBinding = binding
         fun bind(
@@ -40,7 +39,7 @@ class CitiesRecyclerAdapter(
         }
 
         companion object {
-            fun create(parent: ViewGroup): StockViewHolder {
+            fun create(parent: ViewGroup): CityViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding: CityListItemBinding =
                     DataBindingUtil.inflate(
@@ -49,7 +48,7 @@ class CitiesRecyclerAdapter(
                         parent,
                         false
                     )
-                return StockViewHolder(binding)
+                return CityViewHolder(binding)
             }
         }
 
@@ -58,15 +57,13 @@ class CitiesRecyclerAdapter(
         }
     }
 
-    companion object {
-        private val STOCKS_COMPARATOR = object : DiffUtil.ItemCallback<City>() {
-            override fun areItemsTheSame(oldItem: City, newItem: City): Boolean {
-                return oldItem.hashCode() == newItem.hashCode()
-            }
+    fun updateList(newList: List<City>) {
+        cities.clear()
+        cities.addAll(newList)
+        this.notifyDataSetChanged()
+    }
 
-            override fun areContentsTheSame(oldItem: City, newItem: City): Boolean {
-                return oldItem.hashCode() == newItem.hashCode()
-            }
-        }
+    override fun getItemCount(): Int {
+        return cities.size
     }
 }
