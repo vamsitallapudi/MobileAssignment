@@ -116,8 +116,8 @@ class HomeFragment : BaseFragment() {
         val itemClickListener = object : RecyclerItemClickListener {
             override fun onItemClicked(city: City) {
                 (activity as? BaseActivity)?.displaySnackBar("${city.name} clicked")
-//                val action = HomeFragmentDirections.actionHomeFragmentToMapsFragment(city)
-//                findNavController().navigate(action)
+                val action = HomeFragmentDirections.actionHomeFragmentToMapsFragment(city)
+                findNavController().navigate(action)
             }
         }
         val adapter = CitiesRecyclerAdapter(itemClickListener)
