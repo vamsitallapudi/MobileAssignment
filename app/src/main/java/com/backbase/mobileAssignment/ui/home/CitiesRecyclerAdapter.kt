@@ -33,7 +33,7 @@ class CitiesRecyclerAdapter(
             itemClickListener: HomeFragment.RecyclerItemClickListener,
             position: Int
         ) {
-            mBinding.tvCityTitle.text = city.name
+            mBinding.tvCityTitle.text = getDisplayName(city)
             mBinding.root.setOnClickListener {
                 itemClickListener.onItemClicked(position)
             }
@@ -53,6 +53,9 @@ class CitiesRecyclerAdapter(
             }
         }
 
+        private fun getDisplayName(city: City): String {
+            return "${city.name}, ${city.country}"
+        }
     }
 
     companion object {
