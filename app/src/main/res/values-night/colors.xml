@@ -16,5 +16,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="stockIndicatorGreen">#52A05A</color>
 
-    <color name="editTextColor">#2F4052</color>
+    <color name="searchBgColor">#2F4052</color>
+    <color name="searchTextColor">#FFFFFF</color>
 </resources>
