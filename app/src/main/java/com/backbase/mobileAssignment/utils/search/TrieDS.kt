@@ -3,7 +3,15 @@ package com.backbase.mobileAssignment.utils.search
 import com.backbase.mobileAssignment.data.models.City
 import com.backbase.mobileAssignment.data.models.Coordinates
 import java.util.*
-
+/**
+ * Implemented Trie because it is an efficient data structure while getting the keys with auto suggestion.
+ * Time Complexity to insert all words - O(M * N) where M is the average length of the word and N -> No of words
+ * Time Complexity to get each Word with prefix - 0(M) where M is the length of the word.
+ *
+ * Since we are filtering the data with prefix, Trie is the best DS to lookup compared to HashTable/HashMap.
+ * Also since large data, collisions can occur with Hashtable which again increases the Time Complexity.
+ *
+ * */
 class TrieDS private constructor() : IDataStructure {
     private val root: TrieNode = TrieNode()
 
@@ -21,6 +29,7 @@ class TrieDS private constructor() : IDataStructure {
             node = node[ch]
         }
         node?.apply {
+//            Storing the data in the word's last node.
             originalStr = city.name
             country = city.country
             id = city.id
@@ -70,9 +79,10 @@ class TrieDS private constructor() : IDataStructure {
         return list
     }
 
+//    to recursively fetch the words
     private fun fetchRecursively(node: TrieNode?, list: MutableList<City?>, curr: StringBuffer) {
         if (node!!.isWord) {
-//            retrieving the original data from the trie node
+//            retrieving the original data from the last trie node of the word
             list.add(City(name= node.originalStr, id = node.id, coordinates = node.coordinates, country = node.country, normalizedStr = curr.toString()))
         }
         if (node.links == null || node.links!!.isEmpty()) return
@@ -84,7 +94,6 @@ class TrieDS private constructor() : IDataStructure {
     }
 
     internal class TrieNode {
-        //        R links to node children
         var links: Array<TrieNode?>?
         private val size = 26
         var isWord = false
@@ -122,7 +131,6 @@ class TrieDS private constructor() : IDataStructure {
     }
 
     companion object {
-        const val SEARCH_RATE_LIMITER = 5
         private var trieSearch: TrieDS? = null
         val instance: TrieDS
             get() {

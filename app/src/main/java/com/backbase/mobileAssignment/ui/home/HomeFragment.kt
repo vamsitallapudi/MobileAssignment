@@ -115,14 +115,12 @@ class HomeFragment : BaseFragment() {
     private fun initRecyclerAdapter(): CitiesRecyclerAdapter {
         val itemClickListener = object : RecyclerItemClickListener {
             override fun onItemClicked(city: City) {
-                (activity as? BaseActivity)?.displaySnackBar("${city.name} clicked")
                 val action = HomeFragmentDirections.actionHomeFragmentToMapsFragment(city)
                 findNavController().navigate(action)
             }
         }
         val adapter = CitiesRecyclerAdapter(itemClickListener)
         mBinding.recyclerview.apply {
-            itemAnimator = null
             this.adapter = adapter
             this.layoutManager = LinearLayoutManager(activity)
         }

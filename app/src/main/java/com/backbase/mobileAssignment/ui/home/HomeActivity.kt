@@ -1,7 +1,9 @@
 package com.backbase.mobileAssignment.ui.home
 
 import android.os.Bundle
+import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import com.backbase.mobileAssignment.R
 import com.backbase.mobileAssignment.databinding.ActivityHomeBinding
@@ -31,8 +33,8 @@ class HomeActivity : BaseActivity() {
         return viewModel
     }
 
-    override fun getProgressIndicator(): ProgressBar {
-        return mBinding.root.findViewById(R.id.progressBar)
+    override fun getProgressBarLayout(): ViewGroup {
+        return mBinding.root.findViewById(R.id.progressLayout)
     }
 
 }

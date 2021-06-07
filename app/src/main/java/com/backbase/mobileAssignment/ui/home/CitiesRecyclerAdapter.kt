@@ -1,7 +1,9 @@
 package com.backbase.mobileAssignment.ui.home
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.backbase.mobileAssignment.R
@@ -33,6 +35,8 @@ class CitiesRecyclerAdapter(
             position: Int
         ) {
             mBinding.tvCityTitle.text = getDisplayName(city)
+            mBinding.tvCoordinates.text = getCoordinates(city)
+            mBinding.imageView.setImageDrawable(getCityDrawable(position))
             mBinding.root.setOnClickListener {
                 itemClickListener.onItemClicked(city)
             }
@@ -54,6 +58,17 @@ class CitiesRecyclerAdapter(
 
         private fun getDisplayName(city: City): String {
             return "${city.name}, ${city.country}"
+        }
+        private fun getCoordinates(city: City): String {
+            return "Coordinates: ${city.coordinates.lat}, ${city.coordinates.lon}"
+        }
+
+        private fun getCityDrawable(position: Int): Drawable? {
+            val context = mBinding.root.context
+            val str = position % 14 + 1
+            val resourceId: Int =
+                context.resources.getIdentifier("ic_city_$str", "drawable", context.packageName)
+            return ContextCompat.getDrawable(mBinding.root.context, resourceId)
         }
     }
 

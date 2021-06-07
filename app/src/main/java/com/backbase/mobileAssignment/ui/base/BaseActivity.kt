@@ -2,14 +2,14 @@ package com.backbase.mobileAssignment.ui.base
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun getBaseViewModel(): BaseViewModel
-    abstract fun getProgressIndicator(): ProgressBar
+    abstract fun getProgressBarLayout(): ViewGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun showProgressIndicator(show: Boolean) {
-        val progressBar = getProgressIndicator()
+        val progressBar = getProgressBarLayout()
         progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
