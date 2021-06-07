@@ -31,6 +31,12 @@ class SearchUtilsTest {
     }
 
     @Test
+    fun `test if the list is returned in lexicographical order`() {
+        val citiesList = searchUtils!!.fetchAll()
+        assertTrue(citiesList[0]!!.normalizedStr.compareTo(citiesList[1]!!.normalizedStr) < 1)
+    }
+
+    @Test
     fun `test if word is properly inserted`() {
         val city = City("Hello")
         searchUtils!!.insert(city)
