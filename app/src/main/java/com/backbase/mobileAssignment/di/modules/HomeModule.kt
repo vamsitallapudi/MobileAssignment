@@ -1,9 +1,8 @@
-package com.backbase.mobileAssignment.di.modules.home
+package com.backbase.mobileAssignment.di.modules
 
 import android.app.Activity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
-import com.backbase.mobileAssignment.di.modules.StorageModule
 import com.backbase.mobileAssignment.ui.home.HomeActivity
 import com.backbase.mobileAssignment.ui.home.HomeViewModel
 import com.backbase.mobileAssignment.ui.home.HomeViewModelFactory
@@ -24,9 +23,7 @@ abstract class HomeModule {
     @Binds
     abstract fun provideTrieAsIDataStructure(trieDS: TrieDS): IDataStructure
 
-    @Module
     companion object {
-        @JvmStatic
         @Provides
         fun provideHomeViewModel(
             factory: HomeViewModelFactory,
@@ -36,10 +33,9 @@ abstract class HomeModule {
                 .get(HomeViewModel::class.java)
         }
 
-        @JvmStatic
         @Provides
         fun provideTrie(): TrieDS {
-            return TrieDS.instance!!
+            return TrieDS.instance
         }
     }
 }

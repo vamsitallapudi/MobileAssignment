@@ -1,8 +1,7 @@
 package com.backbase.mobileAssignment.di
 
 import android.content.Context
-import com.backbase.mobileAssignment.di.modules.StorageModule
-import com.backbase.mobileAssignment.di.modules.home.HomeModule
+import com.backbase.mobileAssignment.di.modules.HomeModule
 import com.backbase.mobileAssignment.ui.home.HomeActivity
 import com.backbase.mobileAssignment.ui.home.HomeFragment
 import dagger.BindsInstance

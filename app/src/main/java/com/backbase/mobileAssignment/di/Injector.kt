@@ -1,5 +1,4 @@
-package com.backbase.mobileAssignment.di.modules.home
-import com.backbase.mobileAssignment.di.DaggerAppComponent
+package com.backbase.mobileAssignment.di
 import com.backbase.mobileAssignment.ui.home.HomeActivity
 
 /**

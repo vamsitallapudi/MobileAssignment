@@ -5,7 +5,7 @@ import android.widget.ProgressBar
 import androidx.databinding.DataBindingUtil
 import com.backbase.mobileAssignment.R
 import com.backbase.mobileAssignment.databinding.ActivityHomeBinding
-import com.backbase.mobileAssignment.di.modules.home.inject
+import com.backbase.mobileAssignment.di.inject
 import com.backbase.mobileAssignment.ui.base.BaseActivity
 import com.backbase.mobileAssignment.ui.base.BaseViewModel
 import javax.inject.Inject
