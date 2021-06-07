@@ -1,7 +1,6 @@
 package com.backbase.mobileAssignment.utils
 
-import com.backbase.mobileAssignment.data.database.entity.City
-import com.backbase.mobileAssignment.data.database.entity.Movie
+import com.backbase.mobileAssignment.data.models.City
 import com.backbase.mobileAssignment.utils.search.SearchUtils
 import com.backbase.mobileAssignment.utils.search.TrieDS
 import org.junit.After

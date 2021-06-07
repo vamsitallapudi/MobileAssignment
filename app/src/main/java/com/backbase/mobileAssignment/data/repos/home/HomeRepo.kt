@@ -1,6 +1,5 @@
 package com.backbase.mobileAssignment.data.repos.home
 
-import com.backbase.mobileAssignment.data.database.entity.City
 import com.backbase.mobileAssignment.utils.Result
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

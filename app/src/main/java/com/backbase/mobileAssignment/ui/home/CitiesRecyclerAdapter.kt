@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.backbase.mobileAssignment.R
-import com.backbase.mobileAssignment.data.database.entity.City
+import com.backbase.mobileAssignment.data.models.City
 import com.backbase.mobileAssignment.databinding.CityListItemBinding
 
 class CitiesRecyclerAdapter(

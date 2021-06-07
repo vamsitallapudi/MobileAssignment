@@ -3,7 +3,7 @@ package com.backbase.mobileAssignment.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.backbase.mobileAssignment.data.database.entity.City
+import com.backbase.mobileAssignment.data.models.City
 import com.backbase.mobileAssignment.data.repos.home.HomeRepo
 import com.backbase.mobileAssignment.ui.base.BaseViewModel
 import com.backbase.mobileAssignment.utils.CoroutineDispatchProvider

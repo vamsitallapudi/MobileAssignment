@@ -1,6 +1,6 @@
 package com.backbase.mobileAssignment.utils.search
 
-import com.backbase.mobileAssignment.data.database.entity.City
+import com.backbase.mobileAssignment.data.models.City
 
 class SearchUtils private constructor(private val iDataStructure: IDataStructure) {
     fun insert(city: City?) {

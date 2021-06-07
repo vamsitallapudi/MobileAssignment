@@ -1,6 +1,6 @@
 package com.backbase.mobileAssignment.utils.search
 
-import com.backbase.mobileAssignment.data.database.entity.City
+import com.backbase.mobileAssignment.data.models.City
 import java.util.*
 
 class TrieDS private constructor() : IDataStructure {
