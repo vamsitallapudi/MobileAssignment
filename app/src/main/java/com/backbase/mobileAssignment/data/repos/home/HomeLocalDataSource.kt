@@ -1,6 +1,6 @@
 package com.backbase.mobileAssignment.data.repos.home
 
-import com.backbase.mobileAssignment.data.database.entity.City
+import com.backbase.mobileAssignment.data.models.City
 import com.backbase.mobileAssignment.utils.NETWORK_ERROR_MSG
 import com.backbase.mobileAssignment.utils.Result
 import com.backbase.mobileAssignment.utils.safeApiCall
@@ -42,6 +42,7 @@ class HomeLocalDataSource @Inject constructor(searchUtils: SearchUtils) {
                 City("Shirdi"),
                 City("Ooty"),
                 City("Kodai canal"),
+                City("Verrières -l(Kreis 3) \\/ e- Buisson Shāhrūd"),
             )
             for (city in cities)
                 searchUtils.insert(city)
