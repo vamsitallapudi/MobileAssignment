@@ -1,6 +1,7 @@
 package com.backbase.mobileAssignment.utils
 
 import com.backbase.mobileAssignment.data.models.City
+import com.backbase.mobileAssignment.data.models.Coordinates
 import com.backbase.mobileAssignment.utils.search.SearchUtils
 import com.backbase.mobileAssignment.utils.search.TrieDS
 import org.junit.After
@@ -27,7 +28,10 @@ class SearchUtilsTest {
     @Test
     fun `test if the city is contained in fetched list`() {
         val citiesList = searchUtils!!.fetchAll()
-        assertTrue(citiesList.contains(City("Helrrières -l(Kreis 3) \\/ e- Buisson Shāhrūd")))
+        assertTrue(citiesList.contains(City("Helrrières -l(Kreis 3) \\/ e- Buisson Shāhrūd",
+            "IN",
+            0,
+            Coordinates(78.00,27.001))))
     }
 
     @Test
@@ -38,7 +42,10 @@ class SearchUtilsTest {
 
     @Test
     fun `test if word is properly inserted`() {
-        val city = City("Hello")
+        val city = City("Hello",
+            "IN",
+            0,
+            Coordinates(78.00,27.001))
         searchUtils!!.insert(city)
         assertTrue(searchUtils!!.searchWord(city))
     }
@@ -52,7 +59,10 @@ class SearchUtilsTest {
 
     @Test
     fun `test search implementation for wrong word`() {
-        assertFalse(searchUtils!!.searchWord(City("Hey")))
+        assertFalse(searchUtils!!.searchWord(City("Hey",
+            "IN",
+            0,
+            Coordinates(78.00,27.001))))
     }
 
     @Test
@@ -63,14 +73,20 @@ class SearchUtilsTest {
     @Test
     fun `test if suggestions are working properly`() {
         val suggestionList = searchUtils!!.getSuggestions("hel")
-        assertTrue(suggestionList.contains(City("hella")))
+        assertTrue(suggestionList.contains(City("hella",
+            "IN",
+            0,
+            Coordinates(78.00,27.001))))
     }
 
     @Test
     fun `test if suggestions doesn't contain wrong data`() {
         insertData()
         val suggestionList = searchUtils!!.getSuggestions("hel")
-        assertFalse(suggestionList.contains(City("hellboy")))
+        assertFalse(suggestionList.contains(City("hellboy",
+            "IN",
+            0,
+            Coordinates(78.00,27.001))))
     }
 
     @After
@@ -81,7 +97,21 @@ class SearchUtilsTest {
     }
 
     private fun insertData() {
-        searchUtils!!.insert(City("Helrrières -l(Kreis 3) \\/ e- Buisson Shāhrūd"))
-        searchUtils!!.insert(City("hella"))
+        searchUtils!!.insert(
+            City(
+                "Helrrières -l(Kreis 3) \\/ e- Buisson Shāhrūd",
+                "IN",
+                0,
+                Coordinates(78.00, 27.001)
+            )
+        )
+        searchUtils!!.insert(
+            City(
+                "hella",
+                "IN",
+                0,
+                Coordinates(78.00, 27.001)
+            )
+        )
     }
 }

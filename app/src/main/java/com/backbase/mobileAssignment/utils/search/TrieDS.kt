@@ -1,6 +1,7 @@
 package com.backbase.mobileAssignment.utils.search
 
 import com.backbase.mobileAssignment.data.models.City
+import com.backbase.mobileAssignment.data.models.Coordinates
 import java.util.*
 
 class TrieDS private constructor() : IDataStructure {
@@ -21,6 +22,9 @@ class TrieDS private constructor() : IDataStructure {
         }
         node?.apply {
             originalStr = city.name
+            country = city.country
+            id = city.id
+            coordinates = city.coordinates
             setEnd()
         }
     }
@@ -69,7 +73,7 @@ class TrieDS private constructor() : IDataStructure {
     private fun fetchRecursively(node: TrieNode?, list: MutableList<City?>, curr: StringBuffer) {
         if (node!!.isWord) {
 //            retrieving the original data from the trie node
-            list.add(City(name= node.originalStr, normalizedStr = curr.toString()))
+            list.add(City(name= node.originalStr, id = node.id, coordinates = node.coordinates, country = node.country, normalizedStr = curr.toString()))
         }
         if (node.links == null || node.links!!.isEmpty()) return
         for (child in node.links!!) {
@@ -86,6 +90,9 @@ class TrieDS private constructor() : IDataStructure {
         var isWord = false
             private set
         var originalStr = ""
+        var id: Long = 0
+        var country: String = "IN"
+        var coordinates = Coordinates(78.00,27.00)
         var c = 0.toChar()
 
         constructor(c: Char) {
