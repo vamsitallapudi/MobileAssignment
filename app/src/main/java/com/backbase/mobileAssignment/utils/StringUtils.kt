@@ -8,6 +8,6 @@ object StringUtils {
         val convertedString = Normalizer
             .normalize(str, Normalizer.Form.NFD)
             .replace("[^\\p{ASCII}]".toRegex(), "")
-        return convertedString.toLowerCase(Locale.getDefault()).replace(" ", "").replace("[^a-z]".toRegex(), "")
+        return convertedString.toLowerCase(Locale.getDefault()).replace("[^a-z]".toRegex(), "")
     }
 }
