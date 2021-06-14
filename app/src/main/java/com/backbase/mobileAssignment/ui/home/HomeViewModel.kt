@@ -9,6 +9,7 @@ import com.backbase.mobileAssignment.ui.base.BaseViewModel
 import com.backbase.mobileAssignment.utils.CoroutineDispatchProvider
 import com.backbase.mobileAssignment.utils.Result
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -42,6 +43,7 @@ class HomeViewModel(
                         fetchCitiesMutableLiveData.postValue(it.data as List<City>?)
                     }
                     is Result.Error -> {
+                        cancel()
                         withContext(dispatchProvider.main) {
                             hideLoading()
                         }
@@ -66,9 +68,11 @@ class HomeViewModel(
                         fetchCitiesMutableLiveData.postValue(it.data as List<City>?)
                     }
                     is Result.Error -> {
+                        cancel()
                         withContext(dispatchProvider.main) {
                             hideLoading()
                         }
+                        displayError(it.exception.stackTraceToString())
                     }
                     else -> {}
                 }
@@ -91,9 +95,11 @@ class HomeViewModel(
                         insertCitiesMutableLiveData.postValue(it.data as Boolean)
                     }
                     is Result.Error -> {
+                        cancel()
                         withContext(dispatchProvider.main) {
                             hideLoading()
                         }
+                        displayError(it.exception.stackTraceToString())
                     }
                     is Result.Loading -> {
 
