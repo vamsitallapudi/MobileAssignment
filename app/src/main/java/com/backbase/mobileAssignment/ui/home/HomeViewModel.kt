@@ -8,11 +8,8 @@ import com.backbase.mobileAssignment.data.repos.home.HomeRepo
 import com.backbase.mobileAssignment.ui.base.BaseViewModel
 import com.backbase.mobileAssignment.utils.CoroutineDispatchProvider
 import com.backbase.mobileAssignment.utils.Result
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class HomeViewModel(
     private val dispatchProvider: CoroutineDispatchProvider,
@@ -74,7 +71,6 @@ class HomeViewModel(
                         }
                         displayError(it.exception.stackTraceToString())
                     }
-                    else -> {}
                 }
             }
         }
@@ -100,9 +96,6 @@ class HomeViewModel(
                             hideLoading()
                         }
                         displayError(it.exception.stackTraceToString())
-                    }
-                    is Result.Loading -> {
-
                     }
                 }
             }
